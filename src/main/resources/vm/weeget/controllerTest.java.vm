@@ -1,0 +1,110 @@
+package ${packageName};
+
+import ${packageName}.zax.feign.dto.${ClassName}DTO;
+import ${packageName}.zax.feign.dto.${ClassName}QueryDTO;
+import ${packageName}.zax.feign.common.PageResult;
+import cn.weeget.util.common.result.JsonResult;
+
+import com.alibaba.fastjson.JSON;
+import org.junit.Test;
+import org.springframework.web.client.RestTemplate;
+
+/**
+ * ${functionName}Controller测试
+ *
+ * @author ${author}
+ * @gen ${datetime}
+ */
+public class ${ClassName}ControllerTest {
+
+    private static final String HOST = "http://127.0.0.1:${servicePort}/${serviceName}";
+
+    RestTemplate restTemplate = new RestTemplate();
+
+    // 新增${functionName}
+    @Test
+    public void addTest() {
+        String url = HOST + "/${className}/add";
+        ${ClassName}DTO input = new ${ClassName}DTO();
+#foreach($column in $columns)
+#set($AttrName=$column.javaField.substring(0,1).toUpperCase() + ${column.javaField.substring(1)})
+#if($column.javaField != 'createTime' && $column.javaField != 'updateTime' && $column.javaField != 'delFlag')
+#if($column.javaField != $pkColumn.javaField)
+#if($column.javaType == 'Long')
+        input.set${AttrName}(0L);
+#elseif($column.javaType == 'Integer')
+        input.set${AttrName}(0);
+#elseif($column.javaType == 'String')
+        input.set${AttrName}("");
+#end
+#end
+#end
+#end
+
+        JsonResult<$pkColumn.javaType> result = restTemplate.postForObject(url, input, JsonResult.class);
+        System.out.println(JSON.toJSONString(result));
+    }
+
+    // 根据ID修改${functionName}
+    @Test
+    public void updateByIdTest() {
+        String url = HOST + "/${className}/updateById";
+        ${ClassName}DTO input = new ${ClassName}DTO();
+#foreach($column in $columns)
+#set($AttrName=$column.javaField.substring(0,1).toUpperCase() + ${column.javaField.substring(1)})
+#if($column.javaField != 'createTime' && $column.javaField != 'updateTime' && $column.javaField != 'delFlag')
+#if($column.javaType == 'Long')
+        input.set${AttrName}(0L);
+#elseif($column.javaType == 'Integer')
+        input.set${AttrName}(0);
+#elseif($column.javaType == 'String')
+        input.set${AttrName}("");
+#end
+#end
+#end
+
+        JsonResult result = restTemplate.postForObject(url, input, JsonResult.class);
+        System.out.println(JSON.toJSONString(result));
+    }
+
+    // 根据ID删除${functionName}
+    @Test
+    public void deleteByIdTest() {
+        String url = HOST + "/${className}/deleteById?$pkColumn.javaField=1";
+
+        JsonResult result = restTemplate.getForObject(url, JsonResult.class);
+        System.out.println(JSON.toJSONString(result));
+    }
+
+    // 根据ID查询${functionName}
+    @Test
+    public void getByIdTest() {
+        String url = HOST + "/${className}/getById?$pkColumn.javaField=1";
+
+        JsonResult result = restTemplate.getForObject(url, JsonResult.class);
+        System.out.println(JSON.toJSONString(result));
+    }
+
+    // 查询${functionName}列表
+    @Test
+    public void queryListTest() {
+        String url = HOST + "/${className}/queryList";
+        ${ClassName}QueryDTO input = new ${ClassName}QueryDTO();
+#foreach($column in $columns)
+#if($column.query)
+#set($AttrName=$column.javaField.substring(0,1).toUpperCase() + ${column.javaField.substring(1)})
+#if($column.javaType == 'Long')
+        input.set${AttrName}(0L);
+#elseif($column.javaType == 'Integer')
+        input.set${AttrName}(0);
+#elseif($column.javaType == 'String')
+        input.set${AttrName}("");
+#end
+#end
+#end
+
+        PageResult<${ClassName}DTO> result = restTemplate.postForObject(url, input, PageResult.class);
+        System.out.println(JSON.toJSONString(result));
+    }
+
+}

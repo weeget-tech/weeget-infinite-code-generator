@@ -1,0 +1,98 @@
+package ${packageName}.controller;
+
+import ${packageName}.entity.${ClassName};
+import ${packageName}.service.I${ClassName}Service;
+import ${packageName}.zax.feign.dto.${ClassName}DTO;
+import ${packageName}.zax.feign.dto.${ClassName}QueryDTO;
+import ${packageName}.zax.feign.common.PageResult;
+import cn.weeget.util.common.result.CodeEnums;
+import cn.weeget.util.common.result.JsonResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
+
+/**
+ * ${functionName} Controller
+ *
+ * @author ${author}
+ * @gen ${datetime}
+ */
+@Slf4j
+@RestController
+@RequestMapping("/${className}")
+@Api(tags = {"${functionName}相关"})
+public class ${ClassName}Controller {
+
+    @Autowired
+    I${ClassName}Service ${className}Service;
+
+    @PostMapping("/add")
+    @ApiOperation(value = "添加${functionName}信息", httpMethod = "POST")
+    public JsonResult<$pkColumn.javaType> add(@RequestBody @Valid ${ClassName}DTO input) {
+        ${ClassName} ${className} = new ${ClassName}();
+        BeanUtils.copyProperties(input, ${className});
+        ${className}Service.save(${className});
+#set($AttrName=$pkColumn.javaField.substring(0,1).toUpperCase() + ${pkColumn.javaField.substring(1)})
+        return JsonResult.ok(${className}.get$AttrName());
+    }
+
+    @PostMapping("/updateById")
+    @ApiOperation(value = "根据ID修改${functionName}信息", httpMethod = "POST")
+    public JsonResult updateById(@RequestBody @Valid ${ClassName}DTO input) {
+#set($AttrName=$pkColumn.javaField.substring(0,1).toUpperCase() + ${pkColumn.javaField.substring(1)})
+        if (null == input.get$AttrName()) {
+            return JsonResult.build(CodeEnums.SYS_INPUT_ERROR.getCode(), "请传入$pkColumn.javaField");
+        }
+        ${ClassName} ${className} = new ${ClassName}();
+        BeanUtils.copyProperties(input, ${className});
+        boolean rslt = ${className}Service.updateById(${className});
+        if (!rslt) {
+            return JsonResult.build(CodeEnums.ERROR.getCode(), "修改失败");
+        }
+        return JsonResult.ok();
+    }
+
+    @GetMapping("/deleteById")
+    @ApiOperation(value = "根据ID删除${functionName}信息", httpMethod = "GET")
+    public JsonResult deleteById(@ApiParam(value = "$pkColumn.columnComment", required = true) $pkColumn.javaType $pkColumn.javaField) {
+        if (null == $pkColumn.javaField) {
+            return JsonResult.build(CodeEnums.SYS_INPUT_ERROR.getCode(), "请传入$pkColumn.javaField");
+        }
+        boolean rslt = ${className}Service.removeById($pkColumn.javaField);
+        if (!rslt) {
+            return JsonResult.build(CodeEnums.ERROR.getCode(), "删除失败");
+        }
+        return JsonResult.ok();
+    }
+
+    @GetMapping("/getById")
+    @ApiOperation(value = "根据ID查询${functionName}信息", httpMethod = "GET")
+    public JsonResult<${ClassName}DTO> getById(@ApiParam(value = "$pkColumn.columnComment", required = true) $pkColumn.javaType $pkColumn.javaField) {
+        if (null == $pkColumn.javaField) {
+            return JsonResult.build(CodeEnums.SYS_INPUT_ERROR.getCode(), "请传入$pkColumn.javaField");
+        }
+        ${ClassName} ${className} = ${className}Service.getById($pkColumn.javaField);
+        if (null == ${className}) {
+            return JsonResult.ok();
+        }
+        ${ClassName}DTO ${className}DTO = new ${ClassName}DTO();
+        BeanUtils.copyProperties(${className}, ${className}DTO);
+        return JsonResult.ok(${className}DTO);
+    }
+
+    @PostMapping("/queryList")
+    @ApiOperation(value = "查询${functionName}列表", httpMethod = "POST")
+    public PageResult<${ClassName}DTO> queryList(@RequestBody @Valid ${ClassName}QueryDTO input) {
+        return ${className}Service.queryList(input);
+    }
+}

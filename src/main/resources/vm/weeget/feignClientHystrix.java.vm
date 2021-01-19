@@ -1,0 +1,59 @@
+package ${packageName}.zax.feign.client.impl;
+
+import ${packageName}.zax.feign.client.${ClassName}FeignClient;
+import ${packageName}.zax.feign.common.PageResult;
+import ${packageName}.zax.feign.dto.${ClassName}DTO;
+import ${packageName}.zax.feign.dto.${ClassName}QueryDTO;
+import cn.weeget.util.common.result.CodeEnums;
+import cn.weeget.util.common.result.JsonResult;
+import cn.weeget.util.common.web.feign.CommonExceptionFallbackFactory;
+import com.alibaba.fastjson.JSON;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
+/**
+ * ${functionName} Hystrix
+ *
+ * @author ${author}
+ * @gen ${datetime}
+ */
+@Component
+@Slf4j
+public class ${ClassName}FeignClientHystrix extends CommonExceptionFallbackFactory<${ClassName}FeignClient> {
+
+    @Override
+    public ${ClassName}FeignClient doCreate(Throwable throwable) {
+        return new ${ClassName}FeignClient() {
+            @Override
+            public JsonResult<$pkColumn.javaType> add(${ClassName}DTO input) {
+                log.error("/${className}/add 触发熔断，params={}", JSON.toJSONString(input));
+                return JsonResult.build(CodeEnums.RPC_SERVICE_DOWN);
+            }
+
+            @Override
+            public JsonResult updateById(${ClassName}DTO input) {
+                log.error("/${className}/updateById 触发熔断，params={}", JSON.toJSONString(input));
+                return JsonResult.build(CodeEnums.RPC_SERVICE_DOWN);
+            }
+
+            @Override
+            public JsonResult deleteById($pkColumn.javaType $pkColumn.javaField) {
+                log.error("/${className}/deleteById 触发熔断，$pkColumn.javaField={}", $pkColumn.javaField);
+                return JsonResult.build(CodeEnums.RPC_SERVICE_DOWN);
+            }
+
+            @Override
+            public JsonResult<${ClassName}DTO> getById($pkColumn.javaType $pkColumn.javaField) {
+                log.error("/${className}/getById 触发熔断，$pkColumn.javaField={}", $pkColumn.javaField);
+                return JsonResult.build(CodeEnums.RPC_SERVICE_DOWN);
+            }
+
+            @Override
+            public PageResult<${ClassName}DTO> queryList(${ClassName}QueryDTO input) {
+                log.error("/${className}/queryList 触发熔断，params={}", JSON.toJSONString(input));
+                return PageResult.error(CodeEnums.RPC_SERVICE_DOWN.getCode(), CodeEnums.RPC_SERVICE_DOWN.getMsg());
+            }
+        };
+    }
+
+}

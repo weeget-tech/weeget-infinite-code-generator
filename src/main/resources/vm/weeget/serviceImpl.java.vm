@@ -1,0 +1,42 @@
+package ${packageName}.service.impl;
+
+import ${packageName}.zax.feign.dto.${ClassName}DTO;
+import ${packageName}.zax.feign.common.PageResult;
+import ${packageName}.zax.feign.dto.${ClassName}QueryDTO;
+import ${packageName}.dao.${ClassName}Mapper;
+import ${packageName}.entity.${ClassName};
+import ${packageName}.service.I${ClassName}Service;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * ${functionName} 服务实现类
+ *
+ * @author ${author}
+ * @gen ${datetime}
+ */
+@Service
+public class ${ClassName}ServiceImpl extends ServiceImpl<${ClassName}Mapper, ${ClassName}> implements I${ClassName}Service {
+
+    @Override
+    public PageResult<${ClassName}DTO> queryList(${ClassName}QueryDTO param) {
+        // 分页查询设置
+        Page page = PageHelper.startPage(param.getPageNum().intValue(), param.getPageSize().intValue());
+        page.setCount(param.getPageNum() <= 1);
+
+        List<${ClassName}> list = this.baseMapper.queryList(param);
+        List<${ClassName}DTO> dtoList = new ArrayList<>();
+        list.forEach(entity -> {
+            ${ClassName}DTO entityDTO = new ${ClassName}DTO();
+            BeanUtils.copyProperties(entity, entityDTO);
+            dtoList.add(entityDTO);
+        });
+        return PageResult.ok(dtoList, Long.valueOf(page.getPageNum()), Long.valueOf(page.getPageSize()), page.getTotal(), Long.valueOf(page.getPages()));
+    }
+}

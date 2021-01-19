@@ -1,0 +1,23 @@
+package ${packageName}.service;
+
+import ${packageName}.zax.feign.dto.${ClassName}DTO;
+import ${packageName}.zax.feign.common.PageResult;
+import ${packageName}.zax.feign.dto.${ClassName}QueryDTO;
+import ${packageName}.entity.${ClassName};
+import com.baomidou.mybatisplus.extension.service.IService;
+
+/**
+ * ${functionName} 服务类
+ *
+ * @author ${author}
+ * @gen ${datetime}
+ */
+public interface I${ClassName}Service extends IService<${ClassName}> {
+
+    /**
+     * 查询列表
+     *
+     * @gen ${datetime}
+     */
+    PageResult<${ClassName}DTO> queryList(${ClassName}QueryDTO param);
+}

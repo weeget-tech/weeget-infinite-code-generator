@@ -1,0 +1,52 @@
+package ${packageName}.zax.feign.client;
+
+import ${packageName}.zax.feign.common.PageResult;
+import ${packageName}.zax.feign.dto.${ClassName}DTO;
+import ${packageName}.zax.feign.dto.${ClassName}QueryDTO;
+import ${packageName}.zax.feign.client.impl.${ClassName}FeignClientHystrix;
+import cn.weeget.util.common.result.JsonResult;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+/**
+ * ${functionName} Feign
+ * 注：通过 contextId 来区分同一个服务名下不同的业务
+ *
+ * @author ${author}
+ * @gen ${datetime}
+ */
+@FeignClient(value = "${serviceName}", contextId = "${className}", fallbackFactory = ${ClassName}FeignClientHystrix.class)
+public interface ${ClassName}FeignClient {
+
+    /**
+     * 添加${functionName}信息
+     */
+    @PostMapping("/${className}/add")
+    JsonResult<$pkColumn.javaType> add(${ClassName}DTO input);
+
+    /**
+     * 根据ID修改${functionName}信息
+     */
+    @PostMapping("/${className}/updateById")
+    JsonResult updateById(${ClassName}DTO input);
+
+    /**
+     * 根据ID删除${functionName}信息
+     */
+    @GetMapping("/${className}/deleteById")
+    JsonResult deleteById(@RequestParam $pkColumn.javaType $pkColumn.javaField);
+
+    /**
+     * 根据ID查询${functionName}信息
+     */
+    @GetMapping("/${className}/getById")
+    JsonResult<${ClassName}DTO> getById(@RequestParam $pkColumn.javaType $pkColumn.javaField);
+
+    /**
+     * 查询${functionName}列表
+     */
+    @PostMapping("/${className}/queryList")
+    PageResult<${ClassName}DTO> queryList(${ClassName}QueryDTO input);
+}

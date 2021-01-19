@@ -1,0 +1,37 @@
+package ${packageName}.entity;
+
+#foreach($importPkg in $importList)
+import ${importPkg};
+#end
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.Data;
+import lombok.experimental.Accessors;
+
+/**
+ * ${functionName}
+ *
+ * @author ${author}
+ * @gen ${datetime}
+ */
+@Data
+@Accessors(chain = true)
+public class ${ClassName} {
+
+#foreach ($column in $columns)
+#if("$!column.columnComment" != "")
+    /**
+     * ${column.columnComment}
+     */
+#else
+    /**
+     *
+     */
+#end
+## 主键
+#if($column.columnName == $pkColumn.columnName)
+    @TableId(value = "${column.columnName}", type = IdType.AUTO)
+#end
+    private $column.javaType $column.javaField;
+#end
+}
