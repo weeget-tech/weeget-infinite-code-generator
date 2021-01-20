@@ -64,6 +64,7 @@ public class GeneratorTest {
      */
     @Test
     public void genFeignCode() {
+        // 显示指定feign的包路径
         genConfig.setPackageName("cn.weeget.service.goods.zax");// 默认生成包路径 goods，需改成自己的模块名称，如 coupon/order等
         // 指定模板
         VelocityUtils.addTemplate("vm/weeget/entityDTO.java.vm");
@@ -78,7 +79,7 @@ public class GeneratorTest {
     }
 
     /**
-     * 第三步：代码生成【service层】
+     * 第四步：代码生成【service层】
      * 注：生成后将code.zip解压，然后copy到对应的工程目录下
      */
     @Test
