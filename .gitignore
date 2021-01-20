@@ -12,6 +12,7 @@ out/
 .git/
 */.git/
 
+.idea
 .idea/
 */.idea/
 
@@ -31,6 +32,7 @@ target/
 
 *.iml
 */*.iml
+/*.iml
 
 # Log file
 *.log
