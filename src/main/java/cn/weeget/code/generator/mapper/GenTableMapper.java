@@ -74,4 +74,9 @@ public interface GenTableMapper {
      * @return 结果
      */
     public int deleteGenTableByIds(Long[] ids);
+
+    /**
+     * 根据表名删除
+     */
+    public int deleteGenTableByTabelName(String tableName);
 }

@@ -1,5 +1,6 @@
 package cn.weeget.code.generator.service;
 
+import cn.weeget.code.generator.config.GenConfig;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import cn.weeget.code.generator.consts.GenConstants;
@@ -90,6 +91,9 @@ public class GenTableServiceImpl implements GenTableService {
             try {
                 log.info("[导入表结构][{}]start", table.getTableName());
                 String tableName = table.getTableName();
+
+                // this.deleteGenTableInfo(tableName);
+
                 GenUtils.initTable(table, "system");
                 int row = genTableMapper.insertGenTable(table);
                 if (row > 0) {
@@ -108,11 +112,29 @@ public class GenTableServiceImpl implements GenTableService {
     }
 
     /**
+     * 删除表
+     */
+    private void deleteGenTableInfo(String tableName) {
+        GenTable table = genTableMapper.selectDbTableByName(tableName);
+        if (null == table) {
+            return;
+        }
+        Long[] tableIds = new Long[]{table.getTableId()};
+        int rslt = genTableMapper.deleteGenTableByIds(tableIds);
+        log.info("[导入表结构][{}]删除表", table.getTableName());
+
+        rslt = genTableColumnMapper.deleteGenTableColumnByIds(tableIds);
+
+        log.info("[导入表结构][{}]删除表字段", table.getTableName());
+    }
+
+    /**
      * 预览代码
      *
      * @param tableName 表编号
      * @return 预览数据列表
      */
+    @Override
     public Map<String, String> previewCode(String tableName) {
         Map<String, String> dataMap = new LinkedHashMap<>();
 
@@ -197,6 +219,7 @@ public class GenTableServiceImpl implements GenTableService {
     private void generatorCode(String tableName, ZipOutputStream zip) {
         // 查询表信息
         GenTable table = this.queryGenTableColumn(tableName);
+        table.setPackageName(GenConfig.getPackageName());// 重置包路径
 
         VelocityInitializer.initVelocity();
 

@@ -186,4 +186,8 @@
         </foreach>
     </delete>
 
+    <delete id="deleteGenTableByTabelName" parameterType="String">
+        delete from gen_table where table_name = #{tableName}
+    </delete>
+
 </mapper> 
