@@ -1,9 +1,9 @@
-package ${packageName}.zax.feign.client;
+package ${packageName}.feign.client;
 
-import ${packageName}.zax.feign.common.PageResult;
-import ${packageName}.zax.feign.dto.${ClassName}DTO;
-import ${packageName}.zax.feign.dto.${ClassName}QueryDTO;
-import ${packageName}.zax.feign.client.impl.${ClassName}FeignClientHystrix;
+import ${packageName}.feign.common.PageResult;
+import ${packageName}.feign.dto.${ClassName}DTO;
+import ${packageName}.feign.dto.${ClassName}QueryDTO;
+import ${packageName}.feign.client.impl.${ClassName}FeignClientHystrix;
 import cn.weeget.util.common.result.JsonResult;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

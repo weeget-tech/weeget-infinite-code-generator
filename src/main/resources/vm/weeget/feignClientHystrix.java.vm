@@ -1,9 +1,9 @@
-package ${packageName}.zax.feign.client.impl;
+package ${packageName}.feign.client.impl;
 
-import ${packageName}.zax.feign.client.${ClassName}FeignClient;
-import ${packageName}.zax.feign.common.PageResult;
-import ${packageName}.zax.feign.dto.${ClassName}DTO;
-import ${packageName}.zax.feign.dto.${ClassName}QueryDTO;
+import ${packageName}.feign.client.${ClassName}FeignClient;
+import ${packageName}.feign.common.PageResult;
+import ${packageName}.feign.dto.${ClassName}DTO;
+import ${packageName}.feign.dto.${ClassName}QueryDTO;
 import cn.weeget.util.common.result.CodeEnums;
 import cn.weeget.util.common.result.JsonResult;
 import cn.weeget.util.common.web.feign.CommonExceptionFallbackFactory;

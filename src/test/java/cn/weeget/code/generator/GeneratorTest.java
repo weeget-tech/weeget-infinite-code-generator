@@ -46,7 +46,7 @@ public class GeneratorTest {
      * 第一步：指定表名
      */
     String[] tableNames = {
-            "goods",
+            "image_snapshot",
     };
 
     /**

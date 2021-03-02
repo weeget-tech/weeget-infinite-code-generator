@@ -1,4 +1,4 @@
-package ${packageName}.zax.feign.dto;
+package ${packageName}.feign.dto;
 
 #foreach($importPkg in $importList)
 import ${importPkg};
