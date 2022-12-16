@@ -1,3 +1,5 @@
+# weeget-infinite-code-generator
+代码生成器
 # 代码生成
 【数据库表名】基于自定义Velocity模板来生成service层所有代码，包含基本的增删改查和分页接口，接口可直接投产。
 
