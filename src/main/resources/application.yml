@@ -1,0 +1,64 @@
+# 开发环境配置
+server:
+  # 服务器的HTTP端口，默认为8080
+  port: 8080
+  servlet:
+    # 应用的访问路径
+    context-path: /
+# 代码生成
+gen:
+  # 作者
+  author: peicr
+  # 服务名
+  serviceName: weeget-bullet-goods-service
+  # 服务端口
+  servicePort: 9391
+  # 默认生成包路径 system 需改成自己的模块名称 如 system monitor tool
+  packageName: cn.weeget.service.goods
+  # 自动去除表前缀，默认是true
+  autoRemovePre: true
+  # 表前缀（生成类名不会包含表前缀，多个用逗号分隔）
+  tablePrefix:
+
+# 日志配置
+logging:
+  level:
+    com.coy: debug
+    org.springframework: warn
+
+# MyBatis配置
+mybatis:
+  # 搜索指定包别名
+  typeAliasesPackage: cn.weeget.code.generator.domain
+  # 配置mapper的扫描，找到所有的mapper.xml映射文件
+  mapperLocations: classpath*:mybatis/**/*Mapper.xml
+  # 加载全局的配置文件
+  configLocation: classpath:mybatis/mybatis-config.xml
+
+# PageHelper分页插件
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/yhtplus?autoReconnect=true&allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+    rname: db_username
+    password: db_password
+    initialSize: 5
+    minIdle: 5
+    maxActive: 50
+    maxWait: 10000
+    timeBetweenEvictionRunsMillis: 10000
+    minEvictableIdleTimeMillis: 50000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+    filters: stat,wall,log4j
